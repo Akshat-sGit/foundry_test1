@@ -14,7 +14,7 @@ contract Counter {
         // console.log("HERE", count);
         count++;
     }
-    
+
     function dec() public {
         count--;
     }
