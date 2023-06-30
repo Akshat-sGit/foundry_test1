@@ -29,13 +29,13 @@ contract AuthTest is Test{
 
         vm.startPrank(address(1)); 
 
+
         // msg.sender = address(1); 
         wallet.setOwner(address(1));
         wallet.setOwner(address(1));
         wallet.setOwner(address(1));
 
         vm.stopPrank(); 
-
         // msg.sender = address(this); 
         // wallet.setOwner(address(1));
     }
