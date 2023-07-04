@@ -13,8 +13,4 @@ contract Event{
             emit Transfer(from, to[i], amounts[i]);
         }
     }
-
-
-
-
 }

@@ -11,7 +11,7 @@ contract EventTest is Test {
     function setUp() public {
         e = new Event();
     }
-
+    
     function testEmitTransferEvent() public {
         /* function expectEmit(
             bool checkTopic1,
