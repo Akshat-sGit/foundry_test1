@@ -11,5 +11,4 @@ contract Auction{
     function end() external{ 
         require(block.timestamp >= endAt, "cannot end"); 
     }
-    
 }
