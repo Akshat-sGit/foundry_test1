@@ -12,7 +12,7 @@ contract FuzzTest is Test{
         b = new Bit(); 
     }
 
-    function testMostSignificantBit(uint256 x) public pure returns (uint256) {
+    function mostSignificantBit(uint256 x) public pure returns (uint256) {
         uint256 i = 0; 
         while((x>>=1) > 0) {
             i++; 
@@ -30,8 +30,16 @@ contract FuzzTest is Test{
     }
 
     function testMostSignificantBitFuzz(uint256 x) public { 
+        //assume - if false, the fuzzer will discard the current fuzz inputs and start a new fuzz run
+        //skip x = 0    
+        // vm.assume(x > 0);
+        // assertGt(x,0); 
         
+        x = bound(x,1,10); 
+        assertGe(x,1);
+        assertLe(x,10);
+
+        uint i = b.mostSignificantBit(x);
+        assertEq(i, mostSignificantBit(x));
     }
-
-
 }
