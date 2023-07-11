@@ -6,8 +6,7 @@ contract Bit {
     function mostSignificantBit(uint256 x)
         external
         pure
-        returns (uint256 msb)
-    {
+        returns (uint256 msb){
         // x >= 2 ** 128
         if (x >= 0x100000000000000000000000000000000) {
             x >>= 128;
