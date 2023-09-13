@@ -41,4 +41,33 @@ contract TestVoting is Test{
         voting.removeCandidateByOwner(newCandidatesCount);
         assertEq(newCandidatesCount,3, "Candidates count should decrease after removing a candidate.");
     }
+
+    function testOneVotePerAddress() public {
+        // Ensure that the initial vote count for candidate 1 is zero
+        uint initialVoteCount = voting.candidates(1).voteCount();
+        Assert.equal(initialVoteCount, 0, "Initial vote count for Candidate 1 should be zero.");
+
+        // Voter 1 casts a vote for candidate 1
+        voting.vote(1, { from: voter1 });
+
+        // Verify that the vote count for candidate 1 has increased to 1
+        uint voteCountAfterVoting = voting.candidates(1).voteCount();
+        Assert.equal(voteCountAfterVoting, 1, "Vote count for Candidate 1 should be 1 after voting.");
+
+        // Attempt to vote again from the same address (voter1)
+        bool voteExceptionThrown = false;
+        try {
+            voting.vote(2, { from: voter1 });
+        } catch (error) {
+            voteExceptionThrown = true;
+        }
+
+        // Ensure that an exception was thrown when trying to vote again
+        Assert.isTrue(voteExceptionThrown, "Exception should be thrown when trying to vote again from the same address.");
+        
+        // Verify that the vote count for candidate 2 remains unchanged
+        uint voteCountCandidate2 = voting.candidates(2).voteCount();
+        Assert.equal(voteCountCandidate2, 0, "Vote count for Candidate 2 should remain unchanged.");
+    }
+
 }
