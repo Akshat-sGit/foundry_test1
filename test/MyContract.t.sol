@@ -43,31 +43,29 @@ contract TestVoting is Test{
     }
 
     function testOneVotePerAddress() public {
-        // Ensure that the initial vote count for candidate 1 is zero
-        uint initialVoteCount = voting.candidates(1).voteCount();
-        Assert.equal(initialVoteCount, 0, "Initial vote count for Candidate 1 should be zero.");
+    // Ensure that the initial vote count for candidate 1 is zero
+    uint initialVoteCountCandidate1 = voting.candidates(1).voteCount();
+    assertEq(initialVoteCountCandidate1, 0, "Initial vote count for Candidate 1 should be zero.");
 
-        // Voter 1 casts a vote for candidate 1
-        voting.vote(1, { from: voter1 });
+    // Voter 1 casts a vote for candidate 1
+    voting.vote(1);
 
-        // Verify that the vote count for candidate 1 has increased to 1
-        uint voteCountAfterVoting = voting.candidates(1).voteCount();
-        Assert.equal(voteCountAfterVoting, 1, "Vote count for Candidate 1 should be 1 after voting.");
+    // Verify that the vote count for candidate 1 has increased to 1
+    uint voteCountAfterVoting = voting.candidates(1).voteCount();
+    assertEq(voteCountAfterVoting, 1, "Vote count for Candidate 1 should be 1 after voting.");
 
-        // Attempt to vote again from the same address (voter1)
-        bool voteExceptionThrown = false;
-        try {
-            voting.vote(2, { from: voter1 });
-        } catch (error) {
-            voteExceptionThrown = true;
-        }
-
-        // Ensure that an exception was thrown when trying to vote again
-        Assert.isTrue(voteExceptionThrown, "Exception should be thrown when trying to vote again from the same address.");
-        
-        // Verify that the vote count for candidate 2 remains unchanged
-        uint voteCountCandidate2 = voting.candidates(2).voteCount();
-        Assert.equal(voteCountCandidate2, 0, "Vote count for Candidate 2 should remain unchanged.");
+    // Attempt to vote again from the same address (voter1)
+    bool voteExceptionThrown = false;
+    try voting.vote(1) {
+        voteExceptionThrown = false;
+    } catch {
+        voteExceptionThrown = true;
     }
 
+    // Ensure that an exception was thrown when trying to vote again
+    assertTrue(voteExceptionThrown, "Exception should be thrown when trying to vote again from the same address.");
+    // Verify that the vote count for candidate 2 remains unchanged
+    uint voteCountCandidate2 = voting.candidates(2).voteCount();
+    assertEq(voteCountCandidate2, 0, "Vote count for Candidate 2 should remain unchanged.");
+    }
 }
